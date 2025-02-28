@@ -1,6 +1,11 @@
 /**
 License Key Formatting
-Given a string S that consists of only alphanumeric characters and dashes. The string is separated into N + 1 groups by N dashes. Also given an integer K. We want to reformat the string S, such that each group contains exactly K characters, except for the first group, which could be shorter than K but still must contain at least one character. Furthermore, a dash must be inserted between two groups, and you should convert all lowercase letters to uppercase.
+Given a string S that consists of only alphanumeric characters and dashes. 
+The string is separated into N + 1 groups by N dashes. Also given an integer K.
+We want to reformat the string S, such that each group contains exactly K characters, 
+except for the first group, which could be shorter than K but still must contain at least one character. 
+Furthermore, a dash must be inserted between two groups, 
+and you should convert all lowercase letters to uppercase.
 Examples:
 
 Input: S = “5F3Z-2e-9-w”, K = 4
@@ -13,3 +18,19 @@ Output: “2-5G-3J”
 
 Explanation: The string s has been split into three parts, each part has 2 characters except the first part, as it could be shorter as mentioned above
  */
+
+const formatLicenseKey = (s, k) => {
+    const licenseFormatted = s.replace(/[^a-zA-Z0-9]/g, '')
+    const calculatedSplit = Math.floor(s.length / k);
+    const rest = Math.floor(s.length - (calculatedSplit * k) );
+
+    let firstPart = '';
+    if (rest.length > 0) {
+        firstPart = s.slice(0, rest);
+    }
+    const textSplited = licenseFormatted.slice(rest);
+    const groups = textSplited.match(/.(1,${k})/g) || [];
+    return [firstPart, ...groups].join('-');
+}
+
+console.log(formatLicenseKey('5F3Z-2e-9-w', 4));
